@@ -1,17 +1,17 @@
-# variable "GOOGLE_REGION" {
-#   description = "Google Cloud region for GKE cluster"
-#   type        = string
-# }
+variable "GOOGLE_REGION" {
+  description = "Google Cloud region for GKE cluster"
+  type        = string
+}
 
-# variable "GOOGLE_PROJECT" {
-#   description = "Google Cloud project for GKE cluster"
-#   type        = string
-# }
+variable "GOOGLE_PROJECT" {
+  description = "Google Cloud project for GKE cluster"
+  type        = string
+}
 
-# variable "GKE_NUM_NODES" {
-#   description = "Number of nodes for GKE cluster"
-#   type        = number
-# }
+variable "GKE_NUM_NODES" {
+  description = "Number of nodes for GKE cluster"
+  type        = number
+}
 
 variable "algorithm" {
   description = "Algorithm for TLS private key"

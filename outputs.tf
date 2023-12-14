@@ -9,5 +9,5 @@ output "public_key_openssh" {
 }
 
 output "kubeconfig_path" {
-  value = module.kind_cluster.kubeconfig
+  value = module.gke_cluster.kubeconfig
 }

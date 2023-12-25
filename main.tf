@@ -29,6 +29,27 @@ module "flux_bootstrap" {
   github_token      = var.GITHUB_TOKEN
 }
 
+module "gke-workload-identity" {
+  source              = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
+  use_existing_k8s_sa = true
+  name                = "kustomize-controller"
+  namespace           = "flux-system"
+  project_id          = var.GOOGLE_PROJECT
+  roles               = ["roles/cloudkms.cryptoKeyEncrypterDecrypter"]
+  annotate_k8s_sa     = true
+  location            = var.GOOGLE_REGION
+}
+
+module "kms" {
+  source = "github.com/den-vasyliev/terraform-google-kms"
+
+  project_id      = var.GOOGLE_PROJECT
+  location        = "global"
+  keyring         = "sops-flux"
+  keys            = ["sops-keys-flux"]
+  prevent_destroy = false
+}
+
 terraform {
   backend "gcs" {
     bucket = "terraform-status-bucket-00d23e84-28ef-47b8-8eac-5dc1151360d5"

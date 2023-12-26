@@ -41,8 +41,31 @@ module "gke-workload-identity" {
   cluster_name        = "main"
 }
 
+resource "google_project_iam_member" "github_actions_role" {
+  project = var.GOOGLE_PROJECT
+  role    = "roles/editor"
+
+  member     = "serviceAccount:${google_service_account.github_actions_sa.email}"
+  depends_on = [google_service_account.github_actions_sa]
+}
+
+resource "google_service_account" "github_actions_sa" {
+  account_id   = var.GITHUB_ACTIONS_SA
+  display_name = var.GITHUB_ACTIONS_DISPLAY_NAME
+  project      = var.GOOGLE_PROJECT
+}
+
+resource "google_iam_workload_identity_pool" "github_actions_pool" {
+  workload_identity_pool_id = var.GITHUB_ACTIONS_POOL_ID
+  display_name              = var.GITHUB_ACTIONS_POOL_DISPLAY_NAME
+  description               = "Identity pool for github pipelines"
+  project                   = var.GOOGLE_PROJECT
+
+  depends_on = [google_project_iam_member.github_actions_role, google_service_account.github_actions_sa]
+}
+
 module "kms" {
-  source = "github.com/den-vasyliev/terraform-google-kms"
+  source          = "github.com/den-vasyliev/terraform-google-kms"
   project_id      = var.GOOGLE_PROJECT
   location        = "global"
   keyring         = "sops-flux"

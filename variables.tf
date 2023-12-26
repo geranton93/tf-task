@@ -37,3 +37,19 @@ variable "FLUX_GITHUB_REPO" {
   description = "GitHub repository name for Flux"
   type        = string
 }
+
+variable "GITHUB_ACTIONS_SA" {
+  description = "GitHub Actions Service Account ID"
+}
+
+variable "GITHUB_ACTIONS_DISPLAY_NAME" {
+  description = "GitHub Actions Service Account Display Name"
+}
+
+variable "GITHUB_ACTIONS_POOL_ID" {
+  description = "GitHub Actions Pool ID"
+}
+
+variable "GITHUB_ACTIONS_POOL_DISPLAY_NAME" {
+  description = "GitHub Actions Pool Display Name"
+}
